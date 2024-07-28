@@ -52,14 +52,14 @@ pipeline {
         
         stage('Update K8S manifest & push to Repo'){
             environment {
-            GIT_USER_NAME = "Varshil Desai"
+            GIT_USER_NAME = "Varshil"
         }
             steps {
                 script{
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                         sh '''
                         git config user.email "varshil@gmail.com"
-                        git config user.name "Varshil Desai"
+                        git config user.name "Varshil"
                         BUILD_NUMBER=${BUILD_NUMBER}
                         sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" deploy.yaml
                         cat deploy.yaml
