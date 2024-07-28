@@ -55,8 +55,10 @@ pipeline {
                 script{
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                         sh '''
-                        cat deploy.yaml
-                        sed -i "s|image: volley123/cicd-e2e:.*|image: volley123/cicd-e2e:${BUILD_NUMBER}|g" deploy.yaml
+                        git config user.email "varshil@gmail.com"
+                        git config user.name "Varshil Desai"
+                        BUILD_NUMBER=${BUILD_NUMBER}
+                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" deploy.yaml
                         cat deploy.yaml
                         git add deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
