@@ -53,6 +53,7 @@ pipeline {
         stage('Update K8S manifest & push to Repo'){
             environment {
             GIT_USER_NAME = "Varshil"
+            GIT_REPO_NAME = "cicd-jenkins-manifests-repo"
         }
             steps {
                 script{
@@ -66,7 +67,7 @@ pipeline {
                         git add deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
                         git remote -v
-                        git push https://github.com/volley123/cicd-jenkins-manifests-repo.git/${GIT_USER_NAME} HEAD:main
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                         '''                        
                     }
                 }
