@@ -60,14 +60,14 @@ pipeline {
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                         sh '''
                         git config user.email "varshil@gmail.com"
-                        git config user.name "Varshil"
+                        git config user.name "varshil"
                         BUILD_NUMBER=${BUILD_NUMBER}
                         sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" deploy.yaml
                         cat deploy.yaml
                         git add deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
                         git remote -v
-                        git push https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                        git push https://github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git HEAD:main
                         '''                        
                     }
                 }
