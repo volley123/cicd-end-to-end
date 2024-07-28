@@ -4,6 +4,7 @@ pipeline {
     
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
+        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials'
     }
     
     stages {
@@ -29,10 +30,15 @@ pipeline {
         stage('Push the artifacts'){
            steps{
                 script{
-                    sh '''
-                    echo 'Push to Repo'
-                    docker push volley123/cicd-e2e:${BUILD_NUMBER}
-                    '''
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh '''
+                        echo 'Logging in to Docker Hub'
+                        echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+                        echo 'Push to Repo'
+                        docker push volley123/cicd-e2e:${BUILD_NUMBER}
+                        '''
+                    }
                 }
             }
         }
